@@ -73,8 +73,8 @@ fun AppBottomNavigationBar(
     val bottomNavScreens =
         listOfNotNull(
             BottomNavScreen.Home,
-            BottomNavScreen.Library,
             BottomNavScreen.Search,
+            BottomNavScreen.Library,
         )
     var selectedIndex by rememberSaveable {
         mutableIntStateOf(
@@ -120,15 +120,8 @@ fun AppBottomNavigationBar(
         }
     }
 
-    // Search rides in its own circular button, so the capsule holds everything else.
-    val barTabs = bottomNavScreens.filter { it != BottomNavScreen.Search }
-
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        // One centred cluster — capsule, gap, FAB — exactly like the glass bar: fill = false keeps
-        // the capsule at its measured width, so the leftover goes around the cluster instead of
-        // wedging itself between the capsule and the search button.
-        horizontalArrangement = Arrangement.Center,
+    // Three icon-only destinations in the same centred capsule: Home → Search → Library.
+    BoxWithConstraints(
         modifier =
             Modifier
                 .fillMaxWidth()
@@ -136,19 +129,14 @@ fun AppBottomNavigationBar(
                 .padding(horizontal = 16.dp)
                 .padding(top = 4.dp, bottom = 8.dp),
     ) {
-        BoxWithConstraints(Modifier.weight(1f, fill = false)) {
+        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             FlatTabBar(
-                tabs = barTabs,
+                tabs = bottomNavScreens,
                 selectedIndex = selectedIndex,
                 availableWidth = maxWidth,
                 onTabSelected = selectTab,
             )
         }
-        Spacer(Modifier.size(12.dp))
-        FlatSearchButton(
-            selected = selectedIndex == BottomNavScreen.Search.ordinal,
-            onClick = { selectTab(BottomNavScreen.Search) },
-        )
     }
 }
 
@@ -393,8 +381,8 @@ fun AppNavigationRail(
     val bottomNavScreens =
         listOfNotNull(
             BottomNavScreen.Home,
-            BottomNavScreen.Library,
             BottomNavScreen.Search,
+            BottomNavScreen.Library,
         )
     var selectedIndex by rememberSaveable {
         mutableIntStateOf(
