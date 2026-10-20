@@ -126,11 +126,12 @@ fun AppBottomNavigationBar(
                 .padding(horizontal = 16.dp)
                 .padding(top = 4.dp, bottom = 8.dp),
     ) {
+        val barAvailableWidth = maxWidth
         Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             FlatTabBar(
                 tabs = bottomNavScreens,
                 selectedIndex = selectedIndex,
-                availableWidth = maxWidth,
+                availableWidth = barAvailableWidth,
                 onTabSelected = selectTab,
             )
         }
