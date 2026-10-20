@@ -166,6 +166,8 @@ import simpmusic.composeapp.generated.resources.no_results_found
 import simpmusic.composeapp.generated.resources.playlists
 import simpmusic.composeapp.generated.resources.podcasts
 import simpmusic.composeapp.generated.resources.retry
+import simpmusic.composeapp.generated.resources.recent_searches
+import simpmusic.composeapp.generated.resources.search_start_title
 import simpmusic.composeapp.generated.resources.search_for
 import simpmusic.composeapp.generated.resources.search_for_songs_artists_albums_playlists_and_more
 import simpmusic.composeapp.generated.resources.song
@@ -598,104 +600,108 @@ fun SearchScreen(
                 }
 
                 SearchUIType.EMPTY -> {
-                    val mood = moodAndGenres
-                    if (mood == null) {
-                        // First run only: the repository serves its cached copy before hitting the
-                        // network, so this spinner is never seen again after the first fetch.
-                        CenterLoadingBox(Modifier.fillMaxSize())
-                    } else {
-                        // Capped and centred: on a wide desktop window the grid would otherwise
-                        // span the whole width, stretching four tiles into long bars. 1100.dp
-                        // keeps a tile near 250.dp, which is its natural size.
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.TopCenter,
-                        ) {
-                        LazyVerticalGrid(
-                            columns = GridCells.Fixed(moodGridColumns),
-                            modifier =
-                                Modifier
-                                    .fillMaxHeight()
-                                    .widthIn(max = 1100.dp)
-                                    .padding(horizontal = 16.dp),
-                            state = moodGridState,
-                            contentPadding = PaddingValues(top = searchBarHeight),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp),
-                            verticalArrangement = Arrangement.spacedBy(12.dp),
-                        ) {
-                            item(span = { GridItemSpan(maxLineSpan) }) {
-                                Column(
+                    Column(
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .padding(
+                                    start = 20.dp,
+                                    end = 20.dp,
+                                    top = searchBarHeight + 24.dp,
+                                ),
+                    ) {
+                        Text(
+                            text = stringResource(Res.string.search_start_title),
+                            style = typo().headlineMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            text = stringResource(Res.string.search_for_songs_artists_albums_playlists_and_more),
+                            style = typo().bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+
+                        if (searchHistory.isNotEmpty()) {
+                            Spacer(Modifier.height(28.dp))
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Text(
+                                    text = stringResource(Res.string.recent_searches),
+                                    style = typo().titleMedium,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                )
+                                Spacer(Modifier.weight(1f))
+                                TextButton(onClick = { searchViewModel.deleteSearchHistory() }) {
+                                    Text(
+                                        text = stringResource(Res.string.clear_search_history),
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    )
+                                }
+                            }
+                            Spacer(Modifier.height(8.dp))
+                            searchHistory.take(8).forEach { historyItem ->
+                                Row(
                                     modifier =
                                         Modifier
                                             .fillMaxWidth()
-                                            // Breathing room on both sides of this block: above it
-                                            // sits the floating search bar, below it the tile grid.
-                                            .padding(top = 36.dp, bottom = 20.dp),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                            .padding(vertical = 4.dp)
+                                            .clip(RoundedCornerShape(16.dp))
+                                            .background(MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.72f))
+                                            .clickable {
+                                                searchText = historyItem
+                                                focusManager.clearFocus()
+                                                isSearchSubmitted = true
+                                                searchViewModel.insertSearchHistory(historyItem)
+                                                when (searchScreenState.searchType) {
+                                                    SearchType.ALL -> searchViewModel.searchAll(historyItem)
+                                                    SearchType.SONGS -> searchViewModel.searchSongs(historyItem)
+                                                    SearchType.VIDEOS -> searchViewModel.searchVideos(historyItem)
+                                                    SearchType.ALBUMS -> searchViewModel.searchAlbums(historyItem)
+                                                    SearchType.ARTISTS -> searchViewModel.searchArtists(historyItem)
+                                                    SearchType.PLAYLISTS -> searchViewModel.searchPlaylists(historyItem)
+                                                    SearchType.FEATURED_PLAYLISTS -> searchViewModel.searchFeaturedPlaylist(historyItem)
+                                                    SearchType.PODCASTS -> searchViewModel.searchPodcast(historyItem)
+                                                }
+                                            }.padding(start = 16.dp, end = 8.dp, top = 5.dp, bottom = 5.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
                                 ) {
-                                    Text(
-                                        text = stringResource(Res.string.everything_you_need),
-                                        style = typo().titleMedium,
-                                        fontWeight = FontWeight.Bold,
-                                        textAlign = TextAlign.Center,
-                                        modifier = Modifier.fillMaxWidth(),
+                                    Icon(
+                                        imageVector = SimpIcons.History,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(20.dp),
+                                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
                                     )
-                                    Spacer(modifier = Modifier.height(10.dp))
+                                    Spacer(Modifier.width(12.dp))
                                     Text(
-                                        text = stringResource(Res.string.search_for_songs_artists_albums_playlists_and_more),
-                                        style = typo().bodyMedium,
-                                        textAlign = TextAlign.Center,
-                                        modifier = Modifier.fillMaxWidth(),
+                                        text = historyItem,
+                                        style = typo().bodyLarge,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        modifier = Modifier.weight(1f),
                                     )
-                                    SimpMusicChartButton(
-                                        modifier = Modifier.padding(top = 10.dp),
+                                    IconButton(
+                                        onClick = {
+                                            searchText = historyItem
+                                            focusRequester.requestFocus()
+                                        },
                                     ) {
-                                        uriHandler.openUri("https://chart.simpmusic.org")
-                                    }
-                                }
-                            }
-                            mood.sections.forEachIndexed { index, section ->
-                                // First section runs straight on from the header block above it,
-                                // so its own heading would just be a second title in a row.
-                                if (index > 0) {
-                                    item(span = { GridItemSpan(maxLineSpan) }) {
-                                        Text(
-                                            // Section titles come from YouTube already localised,
-                                            // so there is no string resource to pick here.
-                                            text = section.title,
-                                            style = typo().titleMedium,
-                                            fontWeight = FontWeight.Bold,
-                                            color = MaterialTheme.colorScheme.onBackground,
-                                            modifier = Modifier.padding(top = 8.dp),
+                                        Icon(
+                                            imageVector = SimpIcons.ArrowOutward,
+                                            contentDescription = "Use recent search",
+                                            modifier = Modifier.size(20.dp),
                                         )
                                     }
                                 }
-                                // Key must include the section: every section lives in this ONE
-                                // grid, and "For you" repeats categories that also appear under
-                                // Moods or Genres, so params alone collides.
-                                items(section.items, key = { "${section.title}/${it.params}" }) { item ->
-                                    // LazyVerticalGrid only composes tiles inside the viewport, so
-                                    // putting the request here IS the laziness — a category the
-                                    // user never scrolls to never costs a browse.
-                                    LaunchedEffect(item.params) {
-                                        searchViewModel.loadMoodArtwork(item.params)
-                                    }
-                                    MoodCategoryCard(
-                                        title = item.title,
-                                        artworkUrl = moodArtwork[item.params],
-                                    ) {
-                                        navController.navigate(MoodDestination(item.params))
-                                    }
-                                }
                             }
-                            item(span = { GridItemSpan(maxLineSpan) }) {
-                                EndOfPage()
-                            }
-                        }
                         }
                     }
                 }
-
                 SearchUIType.SEARCH_RESULTS -> {
                     // Content area — chips now live in the blurred bar block above.
                     Column(modifier = Modifier.fillMaxSize()) {
