@@ -112,6 +112,7 @@ import com.maxrave.logger.Logger
 import com.maxrave.simpmusic.Platform
 import com.maxrave.simpmusic.expect.ui.LoginSyncDialog
 import com.maxrave.simpmusic.expect.ui.filePickerResult
+import com.maxrave.simpmusic.expect.ui.photoPickerResult
 import com.maxrave.simpmusic.expect.ui.fileSaverResult
 import com.maxrave.simpmusic.expect.ui.isLyricsBlurSupported
 import com.maxrave.simpmusic.expect.ui.isWallpaperDynamicColorSupported
@@ -500,6 +501,11 @@ fun SettingScreen(
             }
         }
 
+    val backgroundPhotoPicker =
+        photoPickerResult { uri ->
+            if (!uri.isNullOrBlank()) sharedViewModel.setLlyuymusicBackgroundUri(uri)
+        }
+
     // Import playlists converted on the web. filePickerResult offers every file type, because a
     // converted .json arrives with whatever MIME its source assigned it, and an application/json
     // filter would hide it on some hosts.
@@ -579,6 +585,7 @@ fun SettingScreen(
     val enableLiquidGlass by viewModel.enableLiquidGlass.collectAsStateWithLifecycle()
     val themeMode by sharedViewModel.getThemeMode().collectAsStateWithLifecycle(DataStoreManager.THEME_MODE_DARK)
     val themeColorSource by sharedViewModel.getThemeColorSource().collectAsStateWithLifecycle(DataStoreManager.THEME_COLOR_DEFAULT)
+    val appBackgroundUri by sharedViewModel.getLlyuymusicBackgroundUri().collectAsStateWithLifecycle(initialValue = "")
     val customThemeColorHex by sharedViewModel.getCustomThemeColor().collectAsStateWithLifecycle(DataStoreManager.DEFAULT_THEME_COLOR_HEX)
     val nowPlayingStyle by sharedViewModel.getNowPlayingStyle().collectAsStateWithLifecycle(DataStoreManager.NOW_PLAYING_STYLE_SPOTIFY)
     val lyricsStyle by sharedViewModel.getLyricsStyle().collectAsStateWithLifecycle(DataStoreManager.LYRICS_STYLE_CLASSIC)
@@ -943,6 +950,25 @@ fun SettingScreen(
                             subtitle = "#${customThemeColorHex.takeLast(6)}",
                             smallSubtitle = true,
                             onClick = { showColorPickerDialog = true },
+                        )
+                    }
+                    SettingItem(
+                        title = stringResource(Res.string.app_background),
+                        subtitle =
+                            stringResource(
+                                if (appBackgroundUri.isBlank()) {
+                                    Res.string.app_background_description
+                                } else {
+                                    Res.string.app_background_selected
+                                },
+                            ),
+                        onClick = { backgroundPhotoPicker.launch() },
+                    )
+                    if (appBackgroundUri.isNotBlank()) {
+                        SettingItem(
+                            title = stringResource(Res.string.remove_app_background),
+                            subtitle = stringResource(Res.string.remove_app_background_description),
+                            onClick = { sharedViewModel.setLlyuymusicBackgroundUri(null) },
                         )
                     }
                     if (getPlatform() == Platform.Android) {
