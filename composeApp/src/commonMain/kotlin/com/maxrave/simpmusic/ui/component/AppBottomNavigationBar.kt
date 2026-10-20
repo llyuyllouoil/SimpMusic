@@ -73,8 +73,6 @@ fun AppBottomNavigationBar(
     val bottomNavScreens =
         listOfNotNull(
             BottomNavScreen.Home,
-            BottomNavScreen.MixForYou.takeIf { showMixForYouTab },
-            BottomNavScreen.Analytics.takeIf { showAnalyticsTab },
             BottomNavScreen.Library,
             BottomNavScreen.Search,
         )
@@ -395,8 +393,6 @@ fun AppNavigationRail(
     val bottomNavScreens =
         listOfNotNull(
             BottomNavScreen.Home,
-            BottomNavScreen.MixForYou.takeIf { showMixForYouTab },
-            BottomNavScreen.Analytics.takeIf { showAnalyticsTab },
             BottomNavScreen.Library,
             BottomNavScreen.Search,
         )
