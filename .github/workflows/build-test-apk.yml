@@ -28,10 +28,10 @@ jobs:
           echo "isFullBuild=false" >> gradle.properties
           ./gradlew :androidApp:assembleDebug --no-configuration-cache
 
-      - name: Upload debug APK
+      - name: Upload universal APK only
         uses: actions/upload-artifact@v4
         with:
-          name: llyuymusic-debug-apk
-          path: androidApp/build/outputs/apk/debug/*.apk
+          name: llyuymusic-universal-debug-apk
+          path: androidApp/build/outputs/apk/debug/androidApp-universal-debug.apk
           if-no-files-found: error
           retention-days: 7
