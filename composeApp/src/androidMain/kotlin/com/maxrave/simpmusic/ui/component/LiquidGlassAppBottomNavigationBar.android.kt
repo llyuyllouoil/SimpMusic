@@ -109,8 +109,6 @@ actual fun LiquidGlassAppBottomNavigationBar(
     val bottomNavScreens =
         listOfNotNull(
             BottomNavScreen.Home,
-            BottomNavScreen.MixForYou.takeIf { showMixForYouTab },
-            BottomNavScreen.Analytics.takeIf { showAnalyticsTab },
             BottomNavScreen.Library,
             BottomNavScreen.Search,
         )
@@ -118,8 +116,6 @@ actual fun LiquidGlassAppBottomNavigationBar(
     val barTabs =
         listOfNotNull(
             BottomNavScreen.Home,
-            BottomNavScreen.MixForYou.takeIf { showMixForYouTab },
-            BottomNavScreen.Analytics.takeIf { showAnalyticsTab },
             BottomNavScreen.Library,
         )
     var selectedIndex by rememberSaveable {
