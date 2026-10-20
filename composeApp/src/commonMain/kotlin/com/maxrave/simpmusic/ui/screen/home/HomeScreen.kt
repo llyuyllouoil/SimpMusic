@@ -392,6 +392,14 @@ fun HomeScreen(
             }
         }
     }
+    // Keep the optional lyrics-sharing request; all author promotion dialogs are removed.
+    LaunchedEffect(openAppTime, shareLyricsPermissions) {
+        showRequestShareLyricsPermissions =
+            (openAppTime == 1 || (openAppTime > 0 && openAppTime % 15 == 0)) &&
+                openAppTime <= 60 &&
+                !shareLyricsPermissions
+    }
+
     val shouldStartPaginate =
         remember {
             derivedStateOf {
