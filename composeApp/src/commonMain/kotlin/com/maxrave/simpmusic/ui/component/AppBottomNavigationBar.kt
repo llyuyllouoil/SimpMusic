@@ -52,11 +52,8 @@ import kotlin.math.roundToInt
 import kotlin.reflect.KClass
 
 /**
- * The phone bottom bar with liquid glass OFF: the same floating capsule-and-FAB form as the glass
- * bar, drawn flat. One capsule of tabs (Search stays out — it is the round button beside it, the
- * same split the glass bar makes), a sliding rounded indicator instead of the frosted blob, solid
- * theme surfaces instead of refraction. Geometry mirrors the glass bar so switching the setting
- * changes the material, not the layout: 96dp tab cap, 64dp bar, 56dp indicator and FAB.
+ * Icon-only three-destination bottom bar for Home, Search and Library. In flat mode it uses a
+ * solid theme surface and a sliding selection indicator instead of the frosted glass material.
  */
 @Composable
 fun AppBottomNavigationBar(
