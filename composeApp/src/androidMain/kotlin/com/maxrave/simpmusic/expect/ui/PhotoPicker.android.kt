@@ -23,18 +23,16 @@ actual fun photoPickerResult(onResultUri: (String?) -> Unit): PhotoPickerLaunche
                 if (data != null) {
                     val contentResolver = context.contentResolver
 
-                    val takeFlags: Int =
-                        Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                    // Check for the freshest data.
-                    context.grantUriPermission(
-                        context.packageName,
-                        data,
-                        takeFlags,
-                    )
-                    contentResolver?.takePersistableUriPermission(data, takeFlags)
-                    val uri = data.toString()
-                    onResultUri(uri)
+                    val takeFlags =
+                        (intentRef.flags and
+                            (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION))
+                    // Persist only permissions actually granted by the document picker.
+                    if (takeFlags != 0) {
+                        runCatching {
+                            contentResolver?.takePersistableUriPermission(data, takeFlags)
+                        }
+                    }
+                    onResultUri(data.toString())
                 }
             }
         }
