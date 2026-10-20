@@ -45,6 +45,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.pointerInput
@@ -56,6 +57,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil3.compose.AsyncImage
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -157,6 +159,8 @@ fun App(
     val showNotificationPermissionDialog by viewModel.showNotificationPermissionDialog.collectAsStateWithLifecycle()
 
     val isLiquidGlassEnabled by viewModel.getEnableLiquidGlass().collectAsStateWithLifecycle(DataStoreManager.FALSE)
+    val appBackgroundUri by viewModel.getLlyuymusicBackgroundUri().collectAsStateWithLifecycle(initialValue = "")
+    val appBackgroundEnabled = getPlatform() == Platform.Android && appBackgroundUri.isNotBlank()
 
     LaunchedEffect(Unit) {
         viewModel.applyLlyuymusicDefaults()
@@ -495,6 +499,16 @@ fun App(
         // Desktop capsule player is glass by design. Same rule as MiniPlayer's useGlassSurface.
         liquidGlassEnabled = isLiquidGlassEnabled == TRUE || getPlatform() == Platform.Desktop,
     ) {
+        // A selected photo sits behind screens. A translucent page colour lets the photo
+        // show through while cards and controls keep their own readable surfaces.
+        val baseScheme = MaterialTheme.colorScheme
+        val appScheme =
+            if (appBackgroundEnabled) {
+                baseScheme.copy(background = baseScheme.background.copy(alpha = 0.58f))
+            } else {
+                baseScheme
+            }
+        MaterialTheme(colorScheme = appScheme) {
         // Read inside AppTheme so MaterialTheme reflects the resolved scheme.
         val isLightScheme = MaterialTheme.colorScheme.background.luminance() > 0.5f
 
@@ -601,6 +615,14 @@ fun App(
                             },
                         ),
                 ) {
+                    if (appBackgroundEnabled) {
+                        AsyncImage(
+                            model = appBackgroundUri,
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    }
                     Row(
                         Modifier.fillMaxSize(),
                     ) {
@@ -1038,5 +1060,6 @@ fun App(
                 }
             },
         )
+        }
     }
 }
