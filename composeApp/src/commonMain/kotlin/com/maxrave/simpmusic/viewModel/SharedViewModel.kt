@@ -2031,6 +2031,14 @@ class SharedViewModel(
         }
     }
 
+    fun getLlyuymusicBackgroundUri() = dataStoreManager.getString("llyuymusic_background_uri")
+
+    fun setLlyuymusicBackgroundUri(uri: String?) {
+        viewModelScope.launch {
+            dataStoreManager.putString("llyuymusic_background_uri", uri.orEmpty())
+        }
+    }
+
     fun getEnableLiquidGlass() = dataStoreManager.enableLiquidGlass
 
     fun getLocalTrackingEnabled() = dataStoreManager.localTrackingEnabled
