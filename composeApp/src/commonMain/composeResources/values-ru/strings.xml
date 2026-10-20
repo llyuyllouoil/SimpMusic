@@ -422,6 +422,11 @@
     <string name="repeat_off">Отключить повтор</string>
     <string name="youtube_transcript">Расшифровка YouTube</string>
     <string name="user_interface">Интерфейс</string>
+    <string name="app_background">Фон приложения</string>
+    <string name="app_background_description">Выбрать фотографию для фона экранов приложения.</string>
+    <string name="app_background_selected">Пользовательское фото выбрано</string>
+    <string name="remove_app_background">Убрать фото фона</string>
+    <string name="remove_app_background_description">Вернуться к стандартному фону приложения.</string>
     <string name="theme">Тема</string>
     <string name="theme_mode_system">Системная</string>
     <string name="theme_mode_dark">Тёмная</string>
