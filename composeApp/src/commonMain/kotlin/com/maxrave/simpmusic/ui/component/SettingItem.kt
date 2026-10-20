@@ -166,7 +166,7 @@ fun SettingGroup(
                 Modifier
                     .fillMaxWidth()
                     .clip(SettingGroupShape)
-                    .background(cardColor.copy(alpha = 0.5f))
+                    .background(cardColor.copy(alpha = 0.88f))
                     .drawWithContent {
                         // The first row's hairline would sit on the card's own edge, so that strip is
                         // left undrawn. Clipped rather than painted over: the card is translucent.
