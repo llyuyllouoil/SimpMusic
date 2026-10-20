@@ -2015,6 +2015,22 @@ class SharedViewModel(
         }
     }
 
+    /**
+     * Apply this fork's one-time first-run defaults without overwriting choices on later launches.
+     * New installs start with Liquid Glass and the Apple Music player; after the marker is saved,
+     * changing either preference is always respected.
+     */
+    fun applyLlyuymusicDefaults() {
+        viewModelScope.launch {
+            val marker = "llyuymusic_personalized_defaults_v1"
+            if (dataStoreManager.getString(marker).first() != TRUE) {
+                dataStoreManager.setEnableLiquidGlass(true)
+                dataStoreManager.setNowPlayingStyle(DataStoreManager.NOW_PLAYING_STYLE_APPLE_MUSIC)
+                dataStoreManager.putString(marker, TRUE)
+            }
+        }
+    }
+
     fun getEnableLiquidGlass() = dataStoreManager.enableLiquidGlass
 
     fun getLocalTrackingEnabled() = dataStoreManager.localTrackingEnabled
