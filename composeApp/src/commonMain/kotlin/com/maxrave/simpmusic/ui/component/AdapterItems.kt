@@ -539,7 +539,7 @@ fun HomeItemContentPlaylist(
             .then(hoverModifier)
             .wrapContentSize()
             .focusable(true)
-            .clip(RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(16.dp))
             .clickable {
                 onClick()
             },
@@ -660,7 +660,7 @@ fun HomeItemContentPlaylist(
                         (if (fillMaxWidth) Modifier.fillMaxWidth() else Modifier.size(thumbSize))
                             .aspectRatio(1f)
                             .clip(
-                                RoundedCornerShape(10.dp),
+                                RoundedCornerShape(16.dp),
                             ),
                 )
                 if (onPlay != null) HoverPlayButton(visible = hovered, onClick = onPlay)
@@ -920,7 +920,7 @@ fun HomeItemSong(
                 .then(hoverModifier)
                 .fillMaxSize()
                 .focusable(true)
-                .clip(RoundedCornerShape(8.dp))
+                .clip(RoundedCornerShape(16.dp))
                 .combinedClickable(
                     onClick = onClick,
                     onLongClick = onLongClick,
@@ -958,7 +958,7 @@ fun HomeItemSong(
                         Modifier
                             .then(if (fillMaxWidth) Modifier.fillMaxWidth().aspectRatio(1f) else Modifier.size(160.dp))
                             .clip(
-                                RoundedCornerShape(10.dp),
+                                RoundedCornerShape(16.dp),
                             ),
                 )
                 if (onPlay != null) HoverPlayButton(visible = hovered, onClick = onPlay)
@@ -1031,7 +1031,7 @@ fun HomeItemVideo(
             .then(hoverModifier)
             .fillMaxSize()
             .focusable(true)
-            .clip(RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(16.dp))
             .combinedClickable(
                 onClick = onClick,
                 onLongClick = onLongClick,
@@ -1063,7 +1063,7 @@ fun HomeItemVideo(
                             .then(if (fillMaxWidth) Modifier.fillMaxWidth() else Modifier.height(160.dp))
                             .aspectRatio(16f / 9f)
                             .clip(
-                                RoundedCornerShape(10.dp),
+                                RoundedCornerShape(16.dp),
                             ),
                 )
                 if (onPlay != null) HoverPlayButton(visible = hovered, onClick = onPlay)
@@ -1150,7 +1150,7 @@ fun HomeItemArtist(
         Modifier
             .fillMaxSize()
             .focusable(true)
-            .clip(RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(16.dp))
             .clickable {
                 onClick()
             },
