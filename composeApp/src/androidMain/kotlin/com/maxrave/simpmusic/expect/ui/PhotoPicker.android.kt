@@ -20,7 +20,7 @@ actual fun photoPickerResult(onResultUri: (String?) -> Unit): PhotoPickerLaunche
                 Logger.d("ID", Build.ID.toString())
                 val intentRef = activityResult.data
                 val data = intentRef?.data
-                if (data != null) {
+                if (intentRef != null && data != null) {
                     val contentResolver = context.contentResolver
 
                     val takeFlags =
@@ -29,7 +29,7 @@ actual fun photoPickerResult(onResultUri: (String?) -> Unit): PhotoPickerLaunche
                     // Persist only permissions actually granted by the document picker.
                     if (takeFlags != 0) {
                         runCatching {
-                            contentResolver?.takePersistableUriPermission(data, takeFlags)
+                            contentResolver.takePersistableUriPermission(data, takeFlags)
                         }
                     }
                     onResultUri(data.toString())
