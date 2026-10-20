@@ -956,7 +956,7 @@ fun SettingScreen(
                         title = stringResource(Res.string.app_background),
                         subtitle =
                             stringResource(
-                                if (appBackgroundUri.isBlank()) {
+                                if (appBackgroundUri.orEmpty().isBlank()) {
                                     Res.string.app_background_description
                                 } else {
                                     Res.string.app_background_selected
@@ -964,7 +964,7 @@ fun SettingScreen(
                             ),
                         onClick = { backgroundPhotoPicker.launch() },
                     )
-                    if (appBackgroundUri.isNotBlank()) {
+                    if (appBackgroundUri.orEmpty().isNotBlank()) {
                         SettingItem(
                             title = stringResource(Res.string.remove_app_background),
                             subtitle = stringResource(Res.string.remove_app_background_description),
