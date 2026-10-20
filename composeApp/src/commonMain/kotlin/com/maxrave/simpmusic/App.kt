@@ -160,7 +160,7 @@ fun App(
 
     val isLiquidGlassEnabled by viewModel.getEnableLiquidGlass().collectAsStateWithLifecycle(DataStoreManager.FALSE)
     val appBackgroundUri by viewModel.getLlyuymusicBackgroundUri().collectAsStateWithLifecycle(initialValue = "")
-    val appBackgroundEnabled = getPlatform() == Platform.Android && appBackgroundUri.isNotBlank()
+    val appBackgroundEnabled = getPlatform() == Platform.Android && appBackgroundUri.orEmpty().isNotBlank()
 
     LaunchedEffect(Unit) {
         viewModel.applyLlyuymusicDefaults()
