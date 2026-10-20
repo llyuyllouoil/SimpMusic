@@ -952,6 +952,7 @@ fun SettingScreen(
                             onClick = { showColorPickerDialog = true },
                         )
                     }
+                    if (getPlatform() == Platform.Android) {
                     SettingItem(
                         title = stringResource(Res.string.app_background),
                         subtitle =
@@ -970,6 +971,7 @@ fun SettingScreen(
                             subtitle = stringResource(Res.string.remove_app_background_description),
                             onClick = { sharedViewModel.setLlyuymusicBackgroundUri(null) },
                         )
+                    }
                     }
                     if (getPlatform() == Platform.Android) {
                         SettingItem(
