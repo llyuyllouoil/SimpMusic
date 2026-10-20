@@ -508,7 +508,7 @@ fun App(
             } else {
                 baseScheme
             }
-        MaterialTheme(colorScheme = appScheme) {
+        MaterialTheme(colorScheme = appScheme, typography = MaterialTheme.typography, shapes = MaterialTheme.shapes) {
         // Read inside AppTheme so MaterialTheme reflects the resolved scheme.
         val isLightScheme = MaterialTheme.colorScheme.background.luminance() > 0.5f
 
