@@ -2026,6 +2026,7 @@ class SharedViewModel(
             if (dataStoreManager.getString(marker).first() != TRUE) {
                 dataStoreManager.setEnableLiquidGlass(true)
                 dataStoreManager.setNowPlayingStyle(DataStoreManager.NOW_PLAYING_STYLE_APPLE_MUSIC)
+                dataStoreManager.setBlogNotificationEnabled(false)
                 dataStoreManager.putString(marker, TRUE)
             }
         }
