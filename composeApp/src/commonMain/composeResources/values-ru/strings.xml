@@ -8,6 +8,8 @@
     <string name="album_length">%1$s треки  %2$s</string>
     <string name="view_count">%1$s просмотров</string>
     <string name="clear_search_history">Очистить историю поиска</string>
+    <string name="search_start_title">Что будем слушать?</string>
+    <string name="recent_searches">Недавние запросы</string>
     <string name="liked">Понравилось</string>
     <string name="liked_songs">Любимые песни</string>
     <string name="liked_songs_by">По %1$s</string>
