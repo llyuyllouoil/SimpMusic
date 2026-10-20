@@ -203,6 +203,9 @@ import simpmusic.composeapp.generated.resources.audio_delay_description
 import simpmusic.composeapp.generated.resources.audio_reverb
 import simpmusic.composeapp.generated.resources.audio_reverb_description
 import simpmusic.composeapp.generated.resources.author
+import simpmusic.composeapp.generated.resources.app_background
+import simpmusic.composeapp.generated.resources.app_background_description
+import simpmusic.composeapp.generated.resources.app_background_selected
 import simpmusic.composeapp.generated.resources.auto_backup
 import simpmusic.composeapp.generated.resources.auto_backup_description
 import simpmusic.composeapp.generated.resources.auto_check_for_update
@@ -388,6 +391,8 @@ import simpmusic.composeapp.generated.resources.proxy_username_message
 import simpmusic.composeapp.generated.resources.quality
 import simpmusic.composeapp.generated.resources.radio_audio_only
 import simpmusic.composeapp.generated.resources.radio_audio_only_description
+import simpmusic.composeapp.generated.resources.remove_app_background
+import simpmusic.composeapp.generated.resources.remove_app_background_description
 import simpmusic.composeapp.generated.resources.requires_android_12
 import simpmusic.composeapp.generated.resources.restore_your_data
 import simpmusic.composeapp.generated.resources.restore_your_saved_data
