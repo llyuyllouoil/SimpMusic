@@ -524,7 +524,7 @@ fun NavController.navigateToMoreEndpoint(
 fun HomeItemContentPlaylist(
     onClick: () -> Unit,
     data: HomeContentType,
-    thumbSize: Dp = 160.dp,
+    thumbSize: Dp = 200.dp,
     forceDark: Boolean = LocalForceDarkText.current,
     // Fill a grid cell instead of the fixed thumbSize, as Metrolist's browse grid does.
     fillMaxWidth: Boolean = false,
@@ -912,7 +912,7 @@ fun HomeItemSong(
     // Home's hover play button; null leaves the card exactly as it was.
     onPlay: (() -> Unit)? = null,
 ) {
-    val textWidth = if (fillMaxWidth) Modifier.fillMaxWidth() else Modifier.width(160.dp)
+    val textWidth = if (fillMaxWidth) Modifier.fillMaxWidth() else Modifier.width(200.dp)
     val (hoverModifier, hovered) = rememberCardHover(enabled = onPlay != null)
     Box(
         modifier =
@@ -930,7 +930,7 @@ fun HomeItemSong(
             modifier =
                 Modifier
                     .padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 6.dp)
-                    .heightIn(min = 230.dp),
+                    .heightIn(min = 270.dp),
         ) {
             val thumb =
                 data.thumbnails.lastOrNull()?.url?.let {
@@ -956,7 +956,7 @@ fun HomeItemSong(
                     contentScale = ContentScale.Crop,
                     modifier =
                         Modifier
-                            .then(if (fillMaxWidth) Modifier.fillMaxWidth().aspectRatio(1f) else Modifier.size(160.dp))
+                            .then(if (fillMaxWidth) Modifier.fillMaxWidth().aspectRatio(1f) else Modifier.size(200.dp))
                             .clip(
                                 RoundedCornerShape(16.dp),
                             ),
@@ -1145,7 +1145,7 @@ fun HomeItemArtist(
     fillMaxWidth: Boolean = false,
 ) {
     val titleColor = if (forceDark) Color.White else MaterialTheme.colorScheme.onSurface
-    val textWidth = if (fillMaxWidth) Modifier.fillMaxWidth() else Modifier.width(160.dp)
+    val textWidth = if (fillMaxWidth) Modifier.fillMaxWidth() else Modifier.width(200.dp)
     Box(
         Modifier
             .fillMaxSize()
@@ -1159,7 +1159,7 @@ fun HomeItemArtist(
             modifier =
                 Modifier
                     .padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 6.dp)
-                    .heightIn(min = 230.dp),
+                    .heightIn(min = 270.dp),
         ) {
             val thumb = data.thumbnails.lastOrNull()?.url
             AsyncImage(
@@ -1178,7 +1178,7 @@ fun HomeItemArtist(
                 modifier =
                     Modifier
                         .align(Alignment.CenterHorizontally)
-                        .then(if (fillMaxWidth) Modifier.fillMaxWidth().aspectRatio(1f) else Modifier.size(160.dp))
+                        .then(if (fillMaxWidth) Modifier.fillMaxWidth().aspectRatio(1f) else Modifier.size(200.dp))
                         .clip(
                             CircleShape,
                         ),
