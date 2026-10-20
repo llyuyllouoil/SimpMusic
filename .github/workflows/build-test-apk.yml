@@ -6,6 +6,10 @@ on:
     branches:
       - dev
 
+concurrency:
+  group: llyuymusic-android-debug-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
