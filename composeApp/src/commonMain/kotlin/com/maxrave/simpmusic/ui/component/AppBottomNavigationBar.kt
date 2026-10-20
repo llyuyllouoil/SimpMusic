@@ -258,12 +258,6 @@ internal fun FlatTabBar(
                             CompositionLocalProvider(LocalContentColor provides contentColor) {
                                 screen.icon()
                             }
-                            Text(
-                                stringResource(screen.title),
-                                style = typo().bodySmall,
-                                color = contentColor,
-                                maxLines = 1,
-                            )
                         }
                     }
                 }
